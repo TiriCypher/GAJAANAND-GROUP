@@ -5,10 +5,59 @@ const router = express.Router();
 const {
     register,
     login,
-} = require("../controllers/auth.controller");
+    logout,
+    getCurrentUser,
+} = require(
+    "../controllers/auth.controller"
+);
 
-router.post("/register", register);
+const {
+    authorize,
+} = require(
+    "../middleware/auth.middleware"
+);
 
-router.post("/login", login);
+const {
+    protect,
+} = require(
+    "../middleware/auth.middleware"
+);
+
+router.post(
+    "/register",
+    register
+);
+
+router.post(
+    "/login",
+    login
+);
+
+router.post(
+    "/logout",
+    logout
+);
+
+router.get(
+    "/me",
+    protect,
+    getCurrentUser
+);
+
+router.get(
+    "/admin-test",
+    protect,
+    authorize(
+        "admin",
+        "super_admin"
+    ),
+    (req, res) => {
+        res.json({
+            success: true,
+            message:
+                "Welcome Admin",
+        });
+    }
+);
 
 module.exports = router;

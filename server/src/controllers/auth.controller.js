@@ -129,3 +129,38 @@ exports.login = asyncHandler(async (req, res) => {
         )
     );
 });
+
+exports.getCurrentUser = asyncHandler(
+    async (req, res) => {
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                "Current user fetched successfully",
+                {
+                    user: {
+                        id: req.user._id,
+                        firstName:
+                            req.user.firstName,
+                        lastName:
+                            req.user.lastName,
+                        email:
+                            req.user.email,
+                        role:
+                            req.user.role,
+                    },
+                }
+            )
+        );
+    }
+);
+
+exports.logout = asyncHandler(
+    async (req, res) => {
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                "Logout successful"
+            )
+        );
+    }
+);
