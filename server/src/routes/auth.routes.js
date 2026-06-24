@@ -23,6 +23,10 @@ const {
     "../middleware/auth.middleware"
 );
 
+const {
+    refreshAccessToken
+} = require("../controllers/auth.controller");
+
 router.post(
     "/register",
     register
@@ -59,5 +63,7 @@ router.get(
         });
     }
 );
+
+router.post("/refresh", refreshAccessToken);
 
 module.exports = router;

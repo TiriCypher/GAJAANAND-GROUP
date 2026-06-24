@@ -1,9 +1,13 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user.model");
 const asyncHandler = require("../utils/asyncHandler");
 const ApiResponse = require("../utils/apiResponse");
-const generateToken = require("../utils/generateToken");
+const {
+    generateAccessToken,
+    generateRefreshToken
+} = require("../utils/generateToken");
 
 exports.register = asyncHandler(async (req, res) => {
     const {
@@ -73,60 +77,44 @@ exports.register = asyncHandler(async (req, res) => {
 exports.login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json(
-            new ApiResponse(
-                400,
-                "Email and password are required"
-            )
-        );
-    }
-
-    const user = await User.findOne({
-        email,
-    }).select("+password");
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-        return res.status(401).json(
-            new ApiResponse(
-                401,
-                "Invalid credentials"
-            )
-        );
+        return res.status(401).json(new ApiResponse(401, "Invalid credentials"));
     }
 
-    const isMatch =
-        await bcrypt.compare(
-            password,
-            user.password
-        );
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        return res.status(401).json(
-            new ApiResponse(
-                401,
-                "Invalid credentials"
-            )
-        );
+        return res.status(401).json(new ApiResponse(401, "Invalid credentials"));
     }
 
-    const token = generateToken(user._id);
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
+
+    // Store refresh token in DB
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    // Set cookie for refresh token (HTTP ONLY)
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false, // true in production (HTTPS)
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json(
-        new ApiResponse(
-            200,
-            "Login successful",
-            {
-                token,
-                user: {
-                    id: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    role: user.role,
-                },
-            }
-        )
+        new ApiResponse(200, "Login successful", {
+            accessToken,
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role,
+            },
+        })
     );
 });
 
@@ -164,3 +152,34 @@ exports.logout = asyncHandler(
         );
     }
 );
+
+exports.refreshAccessToken = asyncHandler(async (req, res) => {
+    const token = req.cookies.refreshToken;
+
+    if (!token) {
+        return res.status(401).json(
+            new ApiResponse(401, "Refresh token missing")
+        );
+    }
+
+    const decoded = jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const user = await User.findById(decoded.id);
+
+    if (!user || user.refreshToken !== token) {
+        return res.status(403).json(
+            new ApiResponse(403, "Invalid refresh token")
+        );
+    }
+
+    const newAccessToken = generateAccessToken(user._id);
+
+    return res.status(200).json(
+        new ApiResponse(200, "Access token refreshed", {
+            accessToken: newAccessToken
+        })
+    );
+});

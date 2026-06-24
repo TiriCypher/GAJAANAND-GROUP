@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
             select: false,
         },
 
+        refreshToken: {
+            type: String,
+            default: null,
+        },
+
         role: {
             type: String,
             enum: ["customer", "agent", "admin", "super_admin"],
@@ -44,6 +49,7 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+        
     },
     {
         timestamps: true,
