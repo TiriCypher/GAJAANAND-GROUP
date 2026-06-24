@@ -9,6 +9,10 @@ const authRoutes = require("./routes/auth.routes");
 
 const errorHandler = require("./middleware/errorHandler");
 
+const propertyRoutes = require("./routes/property.routes");
+
+
+
 const app = express();
 
 /*
@@ -43,6 +47,8 @@ app.use(
         extended: true,
     })
 );
+
+app.use("/api/properties", propertyRoutes);
 
 /*
 |--------------------------------------------------------------------------
