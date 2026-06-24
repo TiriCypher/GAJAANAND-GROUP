@@ -5,6 +5,7 @@ const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
+const authRoutes = require("./routes/auth.routes");
 
 const errorHandler = require("./middleware/errorHandler");
 
@@ -80,6 +81,11 @@ app.get("/api/health", (req, res) => {
         message: "GAJAANAND GROUP API is running",
     });
 });
+
+app.use(
+    "/api/auth",
+    authRoutes
+);
 
 /*
 |--------------------------------------------------------------------------

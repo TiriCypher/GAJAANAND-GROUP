@@ -7,11 +7,13 @@ const userSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+
         lastName: {
             type: String,
             required: true,
             trim: true,
         },
+
         email: {
             type: String,
             required: true,
@@ -19,19 +21,25 @@ const userSchema = new mongoose.Schema(
             lowercase: true,
             trim: true,
         },
+
         password: {
             type: String,
             required: true,
+            minlength: 6,
+            select: false,
         },
+
         role: {
             type: String,
             enum: ["customer", "agent", "admin", "super_admin"],
             default: "customer",
         },
+
         isVerified: {
             type: Boolean,
             default: false,
         },
+
         isActive: {
             type: Boolean,
             default: true,
