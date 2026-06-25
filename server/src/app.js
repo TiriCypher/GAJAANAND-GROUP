@@ -15,6 +15,7 @@ const uploadRoutes = require("./routes/upload.routes");
 
 const userRoutes = require("./routes/user.routes");
 
+const leadRoutes = require("./routes/lead.routes");
 
 const app = express();
 
@@ -58,6 +59,11 @@ app.use("/api/upload", uploadRoutes);
 app.use(
     "/api/users",
     userRoutes
+);
+
+app.use(
+    "/api/leads",
+    leadRoutes
 );
 /*
 |--------------------------------------------------------------------------
