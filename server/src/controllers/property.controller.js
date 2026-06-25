@@ -167,3 +167,89 @@ exports.attachPropertyImages = asyncHandler(async (req, res) => {
         )
     );
 });
+
+exports.getPropertyById = asyncHandler(async (req, res) => {
+    const property = await Property.findById(
+        req.params.id
+    ).populate(
+        "owner",
+        "firstName lastName email"
+    );
+
+    if (!property) {
+        return res.status(404).json(
+            new ApiResponse(
+                404,
+                "Property not found"
+            )
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "Property fetched successfully",
+            property
+        )
+    );
+});
+
+exports.getSimilarProperties =
+    asyncHandler(async (req, res) => {
+        const property =
+            await Property.findById(
+                req.params.id
+            );
+
+        if (!property) {
+            return res.status(404).json(
+                new ApiResponse(
+                    404,
+                    "Property not found"
+                )
+            );
+        }
+
+        const similar =
+            await Property.find({
+                _id: {
+                    $ne: property._id,
+                },
+                type: property.type,
+                "location.city":
+                    property.location.city,
+            })
+                .limit(6)
+                .populate(
+                    "owner",
+                    "firstName lastName"
+                );
+
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                "Similar properties fetched",
+                similar
+            )
+        );
+    });
+
+    exports.getFeaturedProperties =
+    asyncHandler(async (req, res) => {
+        const properties =
+            await Property.find({
+                featured: true,
+            })
+                .limit(8)
+                .sort({
+                    createdAt: -1,
+                });
+
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                "Featured properties fetched",
+                properties
+            )
+        );
+    });

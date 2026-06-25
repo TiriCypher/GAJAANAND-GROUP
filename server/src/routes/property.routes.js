@@ -6,6 +6,9 @@ const {
     createProperty,
     getAllProperties,
     attachPropertyImages,
+    getPropertyById,
+    getSimilarProperties,
+    getFeaturedProperties,
 } = require("../controllers/property.controller");
 
 const { protect, authorize } = require("../middleware/auth.middleware");
@@ -34,6 +37,20 @@ router.post(
     attachPropertyImages
 );
 
+router.get(
+    "/featured",
+    getFeaturedProperties
+);
+
+router.get(
+    "/:id",
+    getPropertyById
+);
+
+router.get(
+    "/:id/similar",
+    getSimilarProperties
+);
 // Public listing
 router.get("/", getAllProperties);
 
