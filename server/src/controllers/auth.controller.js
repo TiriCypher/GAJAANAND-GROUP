@@ -54,7 +54,7 @@ exports.register = asyncHandler(async (req, res) => {
         password: hashedPassword,
     });
 
-    const token = generateToken(user._id);
+    const token = generateAccessToken(user._id);
 
     return res.status(201).json(
         new ApiResponse(

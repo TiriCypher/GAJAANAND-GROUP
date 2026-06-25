@@ -34,6 +34,13 @@ const userSchema = new mongoose.Schema(
             default: null,
         },
 
+        savedProperties: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Property",
+            },
+        ],
+
         role: {
             type: String,
             enum: ["customer", "agent", "admin", "super_admin"],
@@ -49,7 +56,7 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
-        
+
     },
     {
         timestamps: true,
