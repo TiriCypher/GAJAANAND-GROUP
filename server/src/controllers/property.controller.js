@@ -2,6 +2,7 @@ const Property = require("../models/property.model");
 const asyncHandler = require("../utils/asyncHandler");
 const ApiResponse = require("../utils/apiResponse");
 const uploadToCloudinary = require("../utils/uploadToCloudinary");
+const ApiError = require("../utils/ApiError");
 
 // TEST: Create Property
 exports.createProperty = asyncHandler(async (req, res) => {
@@ -124,11 +125,9 @@ exports.attachPropertyImages = asyncHandler(async (req, res) => {
     const property = await Property.findById(propertyId);
 
     if (!property) {
-        return res.status(404).json(
-            new ApiResponse(
-                404,
-                "Property not found"
-            )
+        throw new ApiError(
+            404,
+            "Property not found"
         );
     }
 
@@ -234,7 +233,7 @@ exports.getSimilarProperties =
         );
     });
 
-    exports.getFeaturedProperties =
+exports.getFeaturedProperties =
     asyncHandler(async (req, res) => {
         const properties =
             await Property.find({

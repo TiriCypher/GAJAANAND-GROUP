@@ -1,4 +1,4 @@
-const errorHandler = (
+const errorHandle = (
     err,
     req,
     res,
@@ -16,4 +16,4 @@ const errorHandler = (
     });
 };
 
-module.exports = errorHandler;
+module.exports = errorHandle;

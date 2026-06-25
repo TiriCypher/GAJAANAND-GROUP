@@ -39,7 +39,7 @@ const {
 router.post(
  "/register",
  validate(registerSchema),
- registerUser
+ register
 );
 
 router.post(
