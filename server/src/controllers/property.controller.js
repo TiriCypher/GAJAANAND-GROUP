@@ -1,6 +1,7 @@
 const Property = require("../models/property.model");
 const asyncHandler = require("../utils/asyncHandler");
 const ApiResponse = require("../utils/apiResponse");
+const uploadToCloudinary = require("../utils/uploadToCloudinary");
 
 // TEST: Create Property
 exports.createProperty = asyncHandler(async (req, res) => {
@@ -89,5 +90,80 @@ exports.getAllProperties = asyncHandler(async (req, res) => {
                 totalPages: Math.ceil(total / limit),
             },
         })
+    );
+});
+
+exports.uploadPropertyImages = asyncHandler(async (req, res) => {
+    const files = req.files;
+
+    if (!files || files.length === 0) {
+        return res.status(400).json(
+            new ApiResponse(400, "No images uploaded")
+        );
+    }
+
+    const uploadResults = [];
+
+    for (let file of files) {
+        const result = await uploadToCloudinary(file.buffer, "properties");
+
+        uploadResults.push({
+            url: result.secure_url,
+            public_id: result.public_id,
+        });
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, "Images uploaded successfully", uploadResults)
+    );
+});
+
+exports.attachPropertyImages = asyncHandler(async (req, res) => {
+    const { propertyId } = req.params;
+
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+        return res.status(404).json(
+            new ApiResponse(
+                404,
+                "Property not found"
+            )
+        );
+    }
+
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json(
+            new ApiResponse(
+                400,
+                "No images uploaded"
+            )
+        );
+    }
+
+    const uploadedImages = [];
+
+    for (const file of req.files) {
+        const result = await uploadToCloudinary(
+            file.buffer,
+            "properties"
+        );
+
+        uploadedImages.push({
+            url: result.secure_url,
+            public_id: result.public_id,
+        });
+    }
+
+    property.images.push(...uploadedImages);
+
+    await property.save();
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "Property images uploaded successfully",
+            property
+        )
     );
 });

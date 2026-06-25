@@ -11,6 +11,8 @@ const errorHandler = require("./middleware/errorHandler");
 
 const propertyRoutes = require("./routes/property.routes");
 
+const uploadRoutes = require("./routes/upload.routes");
+
 
 
 const app = express();
@@ -49,6 +51,7 @@ app.use(
 );
 
 app.use("/api/properties", propertyRoutes);
+app.use("/api/upload", uploadRoutes);
 
 /*
 |--------------------------------------------------------------------------
