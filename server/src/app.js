@@ -3,7 +3,6 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const cookieParser = require("cookie-parser");
-const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const authRoutes = require("./routes/auth.routes");
 
@@ -17,7 +16,10 @@ const userRoutes = require("./routes/user.routes");
 
 const leadRoutes = require("./routes/lead.routes");
 
+const limiter = require("./config/rateLimiter");
 const app = express();
+
+app.set("trust proxy", 1);
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,9 @@ app.use(helmet());
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin:
+            process.env.CLIENT_URL,
+
         credentials: true,
     })
 );
@@ -37,6 +41,7 @@ app.use(
 app.use(compression());
 
 app.use(cookieParser());
+app.use(limiter);
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +50,19 @@ app.use(cookieParser());
 */
 
 app.use(express.json());
+
+/*
+|--------------------------------------------------------------------------
+| Logging
+|--------------------------------------------------------------------------
+*/
+
+if (
+    process.env.NODE_ENV ===
+    "development"
+) {
+    app.use(morgan("dev"));
+}
 
 app.use(
     express.urlencoded({
@@ -67,35 +85,9 @@ app.use(
 );
 
 
-/*
-|--------------------------------------------------------------------------
-| Logging
-|--------------------------------------------------------------------------
-*/
 
-if (
-    process.env.NODE_ENV ===
-    "development"
-) {
-    app.use(morgan("dev"));
-}
 
-/*
-|--------------------------------------------------------------------------
-| Rate Limiting
-|--------------------------------------------------------------------------
-*/
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,
-    message: {
-        success: false,
-        message: "Too many requests. Please try again later.",
-    },
-});
-
-app.use(limiter);
 
 /*
 |--------------------------------------------------------------------------
