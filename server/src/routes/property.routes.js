@@ -17,11 +17,29 @@ const upload = require(
     "../middleware/upload.middleware"
 );
 
+const validate =
+    require(
+        "../middleware/validate.middleware"
+    );
+
+const {
+    createPropertySchema
+} = require(
+    "../validators/property.validator"
+);
+
 // Only admin & agent can create properties
 router.post(
     "/",
     protect,
-    authorize("admin", "agent", "super_admin"),
+    authorize(
+        "admin",
+        "agent",
+        "super_admin"
+    ),
+    validate(
+        createPropertySchema
+    ),
     createProperty
 );
 

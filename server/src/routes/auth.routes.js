@@ -27,9 +27,19 @@ const {
     refreshAccessToken
 } = require("../controllers/auth.controller");
 
+const validate =
+    require("../middleware/validate.middleware");
+
+const {
+    registerSchema
+} = require(
+    "../validators/auth.validator"
+);
+
 router.post(
-    "/register",
-    register
+ "/register",
+ validate(registerSchema),
+ registerUser
 );
 
 router.post(
