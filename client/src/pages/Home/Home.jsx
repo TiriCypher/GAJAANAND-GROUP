@@ -1,15 +1,49 @@
+import {
+  COMPANY,
+} from "../../utils/constants";
+
 function Home() {
   return (
-    <div>
-      <h1>
-        GAJAANAND GROUP
-      </h1>
+    <section
+      className="
+      min-h-screen
+      flex
+      items-center
+      justify-center
+      bg-white
+      "
+    >
+      <div
+        className="
+        text-center
+        px-6
+        "
+      >
+        <h1
+          className="
+          text-5xl
+          md:text-7xl
+          font-bold
+          tracking-wider
+          text-[#0A1F44]
+          "
+        >
+          {COMPANY.NAME}
+        </h1>
 
-      <p>
-        BUILDING TRUST.
-        CREATING VALUE.
-      </p>
-    </div>
+        <p
+          className="
+          mt-6
+          text-lg
+          md:text-2xl
+          tracking-[4px]
+          text-[#D4AF6A]
+          "
+        >
+          {COMPANY.TAGLINE}
+        </p>
+      </div>
+    </section>
   );
 }
 
