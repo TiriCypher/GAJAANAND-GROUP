@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 
 import Home from "./pages/Home/Home";
 import Loader from "./components/common/Loader";
+import SmoothScroll from "./components/common/SmoothScroll";
+import ScrollProgress from "./components/common/ScrollProgress";
+import BackToTop from "./components/common/BackToTop";
 
 function App() {
   const [loading, setLoading] =
@@ -20,7 +23,14 @@ function App() {
     return <Loader />;
   }
 
-  return <Home />;
+  return (
+    <>
+      <ScrollProgress />
+      <SmoothScroll />
+      <BackToTop />
+      <Home />
+    </>
+  );
 }
 
 export default App;
