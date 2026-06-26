@@ -184,6 +184,8 @@ function Hero() {
             </motion.div>
         </section>
     );
+
+    
 }
 
 export default Hero;
