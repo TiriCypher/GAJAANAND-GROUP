@@ -1,7 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../features/auth/validation/registerSchema";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify";
+
+import { register as registerUser } from "../../services/auth.service";
+import { loginSuccess } from "../../features/auth/authSlice";
 import {
   User,
   Mail,
@@ -19,9 +26,38 @@ function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+
+      const payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      };
+
+      const response = await registerUser(payload);
+
+      dispatch(loginSuccess(response.data));
+
+      toast.success(response.message);
+
+      navigate("/");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 flex items-center justify-center px-5 py-16">
@@ -253,9 +289,10 @@ function Register() {
 
             <button
               type="submit"
+              disabled={loading}
               className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#0A1F44] py-4 text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#132D61] hover:shadow-2xl"
             >
-              Create Account
+              {loading ? "Creating Account..." : "Create Account"}
 
               <ArrowRight
                 size={20}
