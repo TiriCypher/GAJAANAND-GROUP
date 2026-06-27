@@ -8,4 +8,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
+export const getProperties = (params) => API.get("/properties", { params });
+
 export default api;

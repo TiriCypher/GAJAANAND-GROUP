@@ -1,191 +1,90 @@
 import { motion } from "framer-motion";
+import Button from "../common/Button";
+import { COMPANY } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
+
 
 function Hero() {
+    const navigate = useNavigate();
+
     return (
         <section
-            className="
-      relative
-      min-h-screen
-      flex
-      items-center
-      justify-center
-      overflow-hidden
-      "
+            className="relative h-screen bg-cover bg-center"
+            style={{
+                backgroundImage: "url('/images/hero.png')",
+            }}
         >
-            {/* Background */}
-
-            <div
-                className="
-        absolute
-        inset-0
-        bg-gradient-to-br
-        from-[#0A1F44]
-        via-[#102B5E]
-        to-[#0A1F44]
-        "
-            />
-
-            {/* Overlay */}
-
-            <div
-                className="
-        absolute
-        inset-0
-        bg-black/20
-        "
-            />
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-[#0A1F44]/70"></div>
 
             {/* Content */}
-
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
+            <div
                 className="
-  relative
-  z-10
-  max-w-6xl
-  mx-auto
-  px-6
-  text-center
-  text-white
+    relative
+    z-10
+    flex
+    min-h-screen
+    items-center
+    justify-center
+    px-6
+    pt-20
+    md:pt-24
   "
             >
-                <motion.p
-                    initial={{
-                        opacity: 0,
-                        y: 30
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0
-                    }}
-                    transition={{
-                        duration: 0.8
-                    }}
-                    className="
-  uppercase
-  tracking-[6px]
-  text-[#D4AF6A]
-  text-sm
-  md:text-base
-  mb-6
-  "
-                >
-                    Luxury Real Estate & Investments
-                </motion.p>
-                <motion.h1
-                    initial={{
-                        opacity: 0,
-                        y: 50
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0
-                    }}
-                    transition={{
-                        duration: 1,
-                        delay: 0.2
-                    }}
-                    className="
-  text-5xl
-  md:text-7xl
-  lg:text-8xl
-  font-bold
-  leading-tight
-  "
-                >
-                    Building The Future
-                    <br />
-                    Of Real Estate
-                </motion.h1>
-
-                <motion.p
-                    initial={{
-                        opacity: 0,
-                        y: 30
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0
-                    }}
-                    transition={{
-                        duration: 1,
-                        delay: 0.4
-                    }}
-                    className="
-  mt-8
-  text-lg
-  md:text-xl
-  max-w-3xl
-  mx-auto
-  text-gray-200
-  "
-                >
-                    Premium residential,
-                    commercial and investment
-                    opportunities curated by
-                    GAJAANAND GROUP.
-                </motion.p>
-
-                <motion.div
-                    initial={{
-                        opacity: 0,
-                        y: 30
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0
-                    }}
-                    transition={{
-                        duration: 1,
-                        delay: 0.6
-                    }}
-                    className="
-  mt-10
-  flex
-  flex-col
-  sm:flex-row
-  gap-4
-  justify-center
-  "
-                >
-                    <button
-                        className="
-            px-8
-            py-4
-            bg-[#D4AF6A]
-            text-[#0A1F44]
-            font-semibold
-            rounded-md
-            hover:scale-105
-            transition
-            "
+                <div className="max-w-5xl text-center text-white">
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="uppercase tracking-[6px] text-[#D4AF6A] mb-6"
                     >
-                        Explore Properties
-                    </button>
+                        {COMPANY.tagline}
+                    </motion.p>
 
-                    <button
-                        className="
-            px-8
-            py-4
-            border
-            border-white
-            text-white
-            rounded-md
-            hover:bg-white
-            hover:text-[#0A1F44]
-            transition
-            "
+                    <motion.h1
+                        initial={{ opacity: 0, y: 60 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                        className="text-5xl md:text-7xl font-bold leading-tight"
                     >
-                        Contact Us
-                    </button>
-                </motion.div>
-            </motion.div>
+                        Luxury Real Estate
+                        <br />
+                        Crafted for the Future
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.7 }}
+                        className="mt-8 text-lg md:text-xl text-gray-200"
+                    >
+                        Discover premium residential, commercial, and investment
+                        opportunities with {COMPANY.name}.
+                    </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1 }}
+                        className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
+                    >
+                        <Button onClick={() => navigate("/properties")}>
+                            Explore Properties
+                        </Button>
+
+                        <Button onClick={() => navigate("/contact")} className="bg-[#D4AF6A] hover:bg-[#c59d55] text-[#0A1F44]">
+                            Contact Us
+                        </Button>
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white animate-bounce">
+                ↓
+            </div>
         </section>
     );
-
-    
 }
 
 export default Hero;

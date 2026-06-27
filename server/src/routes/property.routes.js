@@ -28,6 +28,11 @@ const {
     "../validators/property.validator"
 );
 
+const {
+    saveProperty,
+    sendInquiry,
+} = require("../controllers/property.extra.controller");
+
 // Only admin & agent can create properties
 router.post(
     "/",
@@ -54,6 +59,11 @@ router.post(
     upload.array("images", 20),
     attachPropertyImages
 );
+
+router.post("/save", protect, saveProperty);
+
+// 📩 INQUIRY
+router.post("/inquiry", sendInquiry);
 
 router.get(
     "/featured",

@@ -6,7 +6,11 @@ import {
   FaHeart,
 } from "react-icons/fa";
 
+import { useNavigate } from "react-router-dom";
+
 function PropertyCard({ property }) {
+
+  const navigate = useNavigate();
   return (
     <div className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
       <div className="relative overflow-hidden">
@@ -38,24 +42,24 @@ function PropertyCard({ property }) {
         <div className="flex items-center gap-2 text-gray-500">
           <FaMapMarkerAlt />
           <span>
-            {property.location.city}, {property.location.state}
+            {property.location?.city}, {property.location?.state}
           </span>
         </div>
 
         <div className="flex justify-between text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <FaBed />
-            {property.details.bedrooms} Beds
+            {property.details?.bedrooms || 0} Beds
           </div>
 
           <div className="flex items-center gap-2">
             <FaBath />
-            {property.details.bathrooms} Baths
+            {property.details?.bathrooms || 0} Baths
           </div>
 
           <div className="flex items-center gap-2">
             <FaRulerCombined />
-            {property.details.area} sq.ft
+            {property.details?.area || 0} sq.ft
           </div>
         </div>
 
@@ -64,7 +68,10 @@ function PropertyCard({ property }) {
             ₹ {property.price.toLocaleString("en-IN")}
           </p>
 
-          <button className="rounded-lg bg-[#0A1F44] px-5 py-3 text-white transition hover:bg-[#D4AF6A] hover:text-[#0A1F44]">
+          <button
+            onClick={() => navigate(`/properties/${property._id}`)}
+            className="rounded-lg bg-[#0A1F44] px-5 py-3 text-white transition hover:bg-[#D4AF6A] hover:text-[#0A1F44]"
+          >
             View Details
           </button>
         </div>

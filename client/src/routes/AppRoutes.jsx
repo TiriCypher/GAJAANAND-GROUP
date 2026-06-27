@@ -10,10 +10,9 @@ import Blog from "../pages/Blog/Blog";
 import FAQ from "../pages/FAQ/FAQ";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-import PropertyListing from "../pages/Properties/PropertyListing";
 import PropertyDetails from "../pages/Properties/PropertyDetails";
 import NotFound from "../pages/NotFound/NotFound";
-
+import PropertiesPage from "../pages/Properties"; // index.jsx auto loads
 function AppRoutes() {
   return (
     <BrowserRouter>
@@ -22,7 +21,7 @@ function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/properties" element={<PropertyListing />} />
+          <Route path="/properties" element={<PropertiesPage />} />
           <Route path="/properties/:id" element={<PropertyDetails />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
