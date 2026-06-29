@@ -78,7 +78,7 @@ function Register() {
 
         </div>
 
-        <div className="relative rounded-3xl bg-white/90 backdrop-blur-xl shadow-[0_30px_60px_rgba(0,0,0,0.15)] px-8 py-10">
+        <div className="relative rounded-3xl bg-white/80 backdrop-blur-2xl backdrop-blur-xl shadow-[0_30px_60px_rgba(0,0,0,0.15)] px-8 py-10">
 
           {/* Logo */}
 
@@ -96,7 +96,7 @@ function Register() {
 
           <div className="mt-6 text-center">
 
-            <h1 className="text-4xl font-bold text-[#0A1F44]">
+            <h1 className="text-5xl font-black text-[#0A1F44]">
 
               Create Account
 
@@ -290,7 +290,7 @@ function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#0A1F44] py-4 text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#132D61] hover:shadow-2xl"
+              className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0A1F44] to-[#132D61] py-4 text-lg font-semibold text-white transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(10,31,68,0.35)]"
             >
               {loading ? "Creating Account..." : "Create Account"}
 

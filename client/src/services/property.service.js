@@ -2,7 +2,7 @@ import api from "./api";
 
 import axios from "axios";
 
-const API = "http://localhost:5000/api/v1/properties";
+const API = "http://localhost:5000/api/properties";
 
 const getToken = () => localStorage.getItem("token");
 
@@ -24,8 +24,11 @@ export const sendInquiry = (data) => {
   return axios.post(`${API}/inquiry`, data);
 };
 
-export const getProperties = async () => {
-  const response = await api.get("/properties");
+export const getProperties = async (filters = {}) => {
+  const response = await api.get("/properties", {
+    params: filters,
+  });
+
   return response.data;
 };
 

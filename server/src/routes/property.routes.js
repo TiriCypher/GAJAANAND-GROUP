@@ -11,6 +11,7 @@ const {
     getFeaturedProperties,
 } = require("../controllers/property.controller");
 
+
 const { protect, authorize } = require("../middleware/auth.middleware");
 
 const upload = require(
@@ -31,6 +32,7 @@ const {
 const {
     saveProperty,
     sendInquiry,
+    getSavedProperties,
 } = require("../controllers/property.extra.controller");
 
 // Only admin & agent can create properties
@@ -60,6 +62,12 @@ router.post(
     attachPropertyImages
 );
 
+router.get(
+  "/saved",
+  protect,
+  getSavedProperties
+);
+
 router.post("/save", protect, saveProperty);
 
 // 📩 INQUIRY
@@ -69,6 +77,8 @@ router.get(
     "/featured",
     getFeaturedProperties
 );
+
+
 
 router.get(
     "/:id",

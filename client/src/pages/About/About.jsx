@@ -1,10 +1,20 @@
+import AboutHero from "../../components/about/AboutHero";
+import CompanyStory from "../../components/about/CompanyStory";
+import StatsSection from "../../components/about/StatsSection";
+import WhyChooseUs from "../../components/about/WhyChooseUs";
+import FounderSection from "../../components/about/FounderSection";
+import CTASection from "../../components/about/CTASection";
+
 function About() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-5xl font-bold">
-        About Us
-      </h1>
-    </div>
+    <>
+      <AboutHero />
+      <CompanyStory />
+      <StatsSection />
+      <WhyChooseUs />
+      <FounderSection />
+      <CTASection />
+    </>
   );
 }
 

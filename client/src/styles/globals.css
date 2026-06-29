@@ -15,3 +15,18 @@ body {
   color: #0A1F44;
   font-family: Inter, sans-serif;
 }
+
+.input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input:focus {
+  border-color: #D4AF6A;
+  box-shadow: 0 0 0 4px rgba(212, 175, 106, 0.2);
+}

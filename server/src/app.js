@@ -1,11 +1,13 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const authRoutes = require("./routes/auth.routes");
-
+const adminRoutes =
+    require("./routes/admin.routes");
 const errorHandler = require("./middleware/errorHandler");
 
 const propertyRoutes = require("./routes/property.routes");
@@ -50,6 +52,15 @@ app.use(limiter);
 */
 
 app.use(express.json());
+app.use(
+  "/uploads",
+  express.static(
+    path.join(
+      __dirname,
+      "../uploads"
+    )
+  )
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +94,10 @@ app.use(
     "/api/leads",
     leadRoutes
 );
-
+app.use(
+    "/api/admin",
+    adminRoutes
+);
 
 
 

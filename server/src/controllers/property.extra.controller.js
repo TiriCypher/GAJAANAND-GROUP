@@ -1,8 +1,8 @@
-import SavedProperty from "../models/savedProperty.model.js";
-import Inquiry from "../models/inquiry.model.js";
+const SavedProperty = require("../models/savedProperty.model");
+const Inquiry = require("../models/inquiry.model");
 
 // ❤️ SAVE PROPERTY
-export const saveProperty = async (req, res) => {
+const saveProperty = async (req, res) => {
   try {
     const userId = req.user.id;
     const { propertyId } = req.body;
@@ -30,23 +30,61 @@ export const saveProperty = async (req, res) => {
       data: saved,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
 
-// 📩 SEND INQUIRY
-export const sendInquiry = async (req, res) => {
+// ❤️ GET SAVED PROPERTIES
+const getSavedProperties = async (
+  req,
+  res
+) => {
   try {
-    const { propertyId, name, phone, email, message } = req.body;
+    const userId = req.user.id;
 
-    const inquiry = await Inquiry.create({
-      property: propertyId,
+    const saved =
+      await SavedProperty.find({
+        user: userId,
+      }).populate("property");
+
+    res.json({
+      success: true,
+      total: saved.length,
+      data: saved,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+// 📩 INQUIRY
+const sendInquiry = async (
+  req,
+  res
+) => {
+  try {
+    const {
+      propertyId,
       name,
       phone,
       email,
       message,
-      user: req.user?._id || null,
-    });
+    } = req.body;
+
+    const inquiry =
+      await Inquiry.create({
+        property: propertyId,
+        name,
+        phone,
+        email,
+        message,
+        user: req.user?._id || null,
+      });
 
     res.json({
       success: true,
@@ -54,6 +92,14 @@ export const sendInquiry = async (req, res) => {
       data: inquiry,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message,
+    });
   }
+};
+
+module.exports = {
+  saveProperty,
+  getSavedProperties,
+  sendInquiry,
 };
