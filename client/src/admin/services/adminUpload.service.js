@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5000/api/upload";
+  `${import.meta.env.VITE_API_URL}/upload`;
 
 export const uploadImages = (
   formData,

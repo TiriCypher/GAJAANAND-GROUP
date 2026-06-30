@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/property";
+const API =
+  `${import.meta.env.VITE_API_URL}/property`;
 
 // ❤️ SAVE
 export const savePropertyAPI = (propertyId, token) =>

@@ -2,7 +2,8 @@ import api from "./api";
 
 import axios from "axios";
 
-const API = "http://localhost:5000/api/properties";
+const API =
+  `${import.meta.env.VITE_API_URL}/properties`;
 
 const getToken = () => localStorage.getItem("token");
 
