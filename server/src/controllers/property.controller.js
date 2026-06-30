@@ -1,6 +1,6 @@
 const Property = require("../models/property.model");
 const asyncHandler = require("../utils/asyncHandler");
-const ApiResponse = require("../utils/apiResponse");
+const ApiResponse = require("../utils/ApiResponse");
 const uploadToCloudinary = require("../utils/uploadToCloudinary");
 const ApiError = require("../utils/ApiError");
 

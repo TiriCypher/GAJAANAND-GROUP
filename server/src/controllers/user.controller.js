@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const Property = require("../models/property.model");
 
 const asyncHandler = require("../utils/asyncHandler");
-const ApiResponse = require("../utils/apiResponse");
+const ApiResponse = require("../utils/ApiResponse");
 
 exports.saveProperty = asyncHandler(
     async (req, res) => {

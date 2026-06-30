@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user.model");
 const asyncHandler = require("../utils/asyncHandler");
-const ApiResponse = require("../utils/apiResponse");
+const ApiResponse = require("../utils/ApiResponse");
 const {
     generateAccessToken,
     generateRefreshToken

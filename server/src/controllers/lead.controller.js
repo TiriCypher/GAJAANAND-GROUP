@@ -2,7 +2,7 @@ const Inquiry = require("../models/inquiry.model");
 const Visit = require("../models/visit.model");
 
 const asyncHandler = require("../utils/asyncHandler");
-const ApiResponse = require("../utils/apiResponse");
+const ApiResponse = require("../utils/ApiResponse");
 
 exports.createInquiry =
   asyncHandler(async (req, res) => {
