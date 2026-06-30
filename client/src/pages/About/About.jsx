@@ -4,12 +4,14 @@ import StatsSection from "../../components/about/StatsSection";
 import WhyChooseUs from "../../components/about/WhyChooseUs";
 import FounderSection from "../../components/about/FounderSection";
 import CTASection from "../../components/about/CTASection";
+import OfficeSection from "../../components/about/OfficeSection";
 
 function About() {
   return (
     <>
       <AboutHero />
       <CompanyStory />
+      <OfficeSection />
       <StatsSection />
       <WhyChooseUs />
       <FounderSection />
